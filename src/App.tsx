@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import styles from './App.module.css';
 
 function App() {
+const [joke, setJoke] = useState(`Click the button to get a joke`);
+const getJoke = () => {
+  const config = {
+    headers: {
+       'Accept': 'application/json'
+    },
+ }
+  fetch('https://icanhazdadjoke.com/', config)
+  .then(res => res.json())
+  .then(data => setJoke(data.joke))
+}
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <a href="https://harrysiv.github.io/resume/"><div id={styles.back}>Back</div></a>
+      <div className={styles.container}>
+        <h3>Are these even funny?</h3>
+        <div className={styles.joke}>{joke}</div>
+        <button className={styles.btn} onClick={getJoke}>Click me!</button>
+      </div>
+    </>
   );
 }
 
